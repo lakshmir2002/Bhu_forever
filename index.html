@@ -1,0 +1,526 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>5 Years & Counting | Our 2026 Valentine</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@600&family=Quicksand:wght@300;400;600&family=Playfair+Display:ital,wght@0,700;1,700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-color: #fff9f9;
+            --accent-pink: #ffafbd;
+            --accent-peach: #ffc3a0;
+            --glass: rgba(255, 255, 255, 0.6);
+        }
+
+        body {
+            font-family: 'Quicksand', sans-serif;
+            background: var(--bg-color);
+            color: #4b3636;
+            overflow-x: hidden;
+            scroll-behavior: smooth;
+        }
+
+        .handwritten { font-family: 'Dancing Script', cursive; }
+        .serif { font-family: 'Playfair Display', serif; }
+
+        .mesh-bg {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            z-index: -1;
+            background: 
+                radial-gradient(at 0% 0%, rgba(255, 175, 189, 0.3) 0, transparent 50%),
+                radial-gradient(at 100% 0%, rgba(255, 195, 160, 0.3) 0, transparent 50%),
+                radial-gradient(at 50% 50%, rgba(251, 113, 133, 0.1) 0, transparent 50%);
+        }
+
+        .floating-heart {
+            position: absolute;
+            pointer-events: none;
+            z-index: 0;
+            animation: floatUp 15s infinite linear;
+            filter: blur(1px);
+        }
+        .celebration-heart {
+  filter: blur(0px) !important;
+  z-index: 9998 !important;
+  mix-blend-mode: screen;
+}
+
+
+        @keyframes floatUp {
+            0% { transform: translateY(100vh) scale(0.5); opacity: 0; }
+            20% { opacity: 0.6; }
+            80% { opacity: 0.6; }
+            100% { transform: translateY(-100vh) scale(1.2); opacity: 0; }
+        }
+
+        .premium-glass {
+            background: var(--glass);
+            backdrop-filter: blur(15px);
+            -webkit-backdrop-filter: blur(15px);
+            border: 1px solid rgba(255, 255, 255, 0.4);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.05);
+        }
+
+        .timeline-card {
+            transition: all 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .timeline-card:hover {
+            transform: translateY(-10px) scale(1.02);
+            background: rgba(255, 255, 255, 0.9);
+        }
+.letter-content {
+  max-height: 0;
+  overflow: hidden;
+  transform: translateY(-200px); /* Start MUCH higher */
+  opacity: 0;
+  transition: max-height 2s ease-in-out, opacity 1.2s ease, transform 1.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+.letter-open {
+  max-height: 4000px; /* More space */
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.heart-trail {
+  position: fixed;
+  pointer-events: none;
+  z-index: 99999;
+  font-size: 20px;
+  animation: heartFloat 3s ease-out forwards;
+}
+@keyframes heartFloat {
+  0% { opacity: 1; transform: translateY(0) scale(1); }
+  100% { opacity: 0; transform: translateY(-50px) scale(1.5); }
+}
+
+
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: transparent; }
+        ::-webkit-scrollbar-thumb { background: var(--accent-pink); border-radius: 10px; }
+
+        .image-frame {
+            position: relative;
+            padding: 15px;
+            background: white;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.1);
+            transform: rotate(-1deg);
+            transition: transform 0.5s ease;
+            min-height: 400px;
+        }
+        .image-frame:hover { transform: rotate(0deg) scale(1.02); }
+
+        #proposal-trigger {
+            opacity: 0;
+            transform: translateY(40px);
+            transition: all 1s ease;
+        }
+        #proposal-trigger.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        #no-button {
+    cursor: pointer;
+    will-change: transform, top, left;
+}
+@keyframes fade-in {
+  from { opacity: 0; transform: scale(0.95); }
+  to { opacity: 1; transform: scale(1); }
+}
+.animate-fade-in {
+  animation: fade-in 1.2s ease forwards;
+}
+
+
+    </style>
+</head>
+<body>
+
+    <div class="mesh-bg"></div>
+    <div id="heart-container"></div>
+
+    <!-- Hero Section -->
+    <header class="relative min-h-screen flex flex-col items-center justify-center px-6 pt-20 text-center">
+        <div class="z-10">
+            <div class="inline-block px-4 py-1 mb-6 rounded-full bg-rose-100 text-rose-500 text-sm font-bold tracking-widest uppercase animate-pulse">
+                5th Anniversary Edition
+            </div>
+            <h1 class="serif text-7xl md:text-9xl font-bold mb-6 text-gray-900 tracking-tighter italic">
+                Our <span class="text-rose-400">Half</span> Decade.
+            </h1>
+            
+            <div id="timer" class="flex flex-wrap gap-4 md:gap-8 justify-center mb-12">
+                <div class="text-center">
+                    <span id="days" class="text-4xl md:text-6xl font-bold block text-gray-800">0</span>
+                    <span class="text-[10px] uppercase tracking-[0.3em] font-bold text-rose-300">Days of bliss</span>
+                </div>
+                <div class="h-16 w-px bg-rose-100 hidden md:block"></div>
+                <div class="text-center">
+                    <span id="hours" class="text-4xl md:text-6xl font-bold block text-gray-800">0</span>
+                    <span class="text-[10px] uppercase tracking-[0.3em] font-bold text-rose-300">Hours</span>
+                </div>
+                <div class="h-16 w-px bg-rose-100 hidden md:block"></div>
+                <div class="text-center">
+                    <span id="minutes" class="text-4xl md:text-6xl font-bold block text-gray-800">0</span>
+                    <span class="text-[10px] uppercase tracking-[0.3em] font-bold text-rose-300">Minutes</span>
+                </div>
+                <div class="h-16 w-px bg-rose-100 hidden md:block"></div>
+                <div class="text-center">
+                    <span id="seconds" class="text-4xl md:text-6xl font-bold block text-gray-800">0</span>
+                    <span class="text-[10px] uppercase tracking-[0.3em] font-bold text-rose-300">Seconds</span>
+                </div>
+            </div>
+
+            <p class="text-xl md:text-2xl max-w-xl mx-auto text-gray-500 font-light leading-relaxed mb-16">
+                A love letter written in the stars of 2021, still burning brightly in <span class="font-bold text-gray-700">2026</span>.
+            </p>
+            
+            <div class="flex flex-col items-center">
+                <div class="w-px h-24 bg-gradient-to-b from-rose-300 to-transparent"></div>
+                <span class="handwritten text-2xl mt-4 text-rose-400">Scroll to enter our world</span>
+            </div>
+        </div>
+    </header>
+
+<!-- Our Real Love Journey -->
+<section class="max-w-6xl mx-auto px-6 py-20 space-y-20">
+    <!-- 2021: Friends First -->
+    <div class="flex flex-col md:flex-row items-center gap-16">
+        <div class="w-full md:w-1/2 relative">
+            <div class="premium-glass p-10 rounded-[2rem] relative z-10 timeline-card">
+                <h3 class="serif text-4xl mb-4 italic font-bold text-rose-600">2021</h3>
+                <p class="text-gray-600 leading-relaxed text-lg">
+                    We were best friends sharing every secret and dream. 
+                    Then love sparked blushes and nervous laughter changed everything. 
+                    Friendship became our foundation for something deeper.
+                </p>
+            </div>
+        </div>
+        <div class="w-full md:w-1/2 text-8xl serif font-black text-rose-50 opacity-10 select-none">I</div>
+    </div>
+
+    <!-- 2022: First Fights -->
+    <div class="flex flex-col md:flex-row-reverse items-center gap-16">
+        <div class="w-full md:w-1/2 relative">
+            <div class="premium-glass p-10 rounded-[2rem] relative z-10 timeline-card">
+                <h3 class="serif text-4xl mb-4 italic font-bold text-amber-500">2022</h3>
+                <p class="text-gray-600 leading-relaxed text-lg">
+                    Our first arguments hurt deeply with long silences. 
+                    We learned lovers fight but always return to each other. 
+                    Every tear taught us to hold on tighter.
+                </p>
+            </div>
+        </div>
+        <div class="w-full md:w-1/2 text-8xl serif font-black text-amber-50 opacity-10 select-none">II</div>
+    </div>
+
+    <!-- 2023: Soul Deep -->
+    <div class="flex flex-col md:flex-row items-center gap-16">
+        <div class="w-full md:w-1/2 relative">
+            <div class="premium-glass p-10 rounded-[2rem] relative z-10 timeline-card">
+                <h3 class="serif text-4xl mb-4 italic font-bold text-emerald-600">2023</h3>
+                <p class="text-gray-600 leading-relaxed text-lg">
+                    We learned to fight fairly with words that heal. 
+                    Your quiet moments meant deep thought, not anger. 
+                    Our love grew unbreakable through every conflict.
+                </p>
+            </div>
+        </div>
+        <div class="w-full md:w-1/2 text-8xl serif font-black text-emerald-50 opacity-10 select-none">III</div>
+    </div>
+
+    <!-- 2024: Battle Tested -->
+    <div class="flex flex-col md:flex-row-reverse items-center gap-16">
+        <div class="w-full md:w-1/2 relative">
+            <div class="premium-glass p-10 rounded-[2rem] relative z-10 timeline-card">
+                <h3 class="serif text-4xl mb-4 italic font-bold text-indigo-600">2024</h3>
+                <p class="text-gray-600 leading-relaxed text-lg">
+                    Life brought crises and chaos through dark days. 
+                    We held each other through sleepless nights and worries. 
+                    Together we survived everything completely unbreakable.
+                </p>
+            </div>
+        </div>
+        <div class="w-full md:w-1/2 text-8xl serif font-black text-indigo-50 opacity-10 select-none">IV</div>
+    </div>
+
+    <!-- 2025: Forever Bonded -->
+    <div class="flex flex-col md:flex-row items-center gap-16">
+        <div class="w-full md:w-1/2 relative">
+            <div class="premium-glass p-10 rounded-[2rem] relative z-10 timeline-card">
+                <h3 class="serif text-4xl mb-4 italic font-bold text-rose-600">2025</h3>
+                <p class="text-gray-600 leading-relaxed text-lg">
+                    Five years of choosing love through every battle. 
+                    Your laughter brings joy, your silence gives peace. 
+                    From friendship to eternal love our beautiful victory.
+                </p>
+            </div>
+        </div>
+        <div class="w-full md:w-1/2 text-8xl serif font-black text-rose-50 opacity-10 select-none">V</div>
+    </div>
+
+<div class="flex flex-col md:flex-row-reverse items-center gap-16">
+    <div class="w-full md:w-1/2 relative">
+        <div class="premium-glass p-10 rounded-[2rem] relative z-10 timeline-card">
+            <h3 class="serif text-4xl mb-4 italic font-bold text-amber-600">2026</h3>
+            <p class="text-gray-600 leading-relaxed text-lg">
+                Five years complete, sixth year begins stronger than ever. 
+                Every fight proved you're my home, my victory, my everything. 
+                Here's to eternity together. Will you be my Valentine?
+            </p>
+        </div>
+    </div>
+    <div class="w-full md:w-1/2 text-8xl serif font-black text-rose-50 opacity-10 select-none">VI</div>
+</div>
+
+
+</section>
+
+
+
+
+<!-- Art Gallery - YOUR LOVE LETTER IMAGE (Neutral) -->
+<section class="py-20 px-6 max-w-7xl mx-auto">
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
+        <div class="image-frame overflow-hidden rounded-2xl relative group">
+            <!-- Save your image as love-image.jpg -->
+            <img src="image1.jpg" 
+                 onerror="this.src='https://picsum.photos/800/1000?random=5';"
+                 class="w-full h-[500px] md:h-[600px] object-cover transition-all duration-1000 group-hover:scale-[1.02] rounded-xl"
+                 alt="Our 5th Anniversary Memory" loading="eager">
+            
+            <!-- Simple romantic overlay -->
+            <div class="absolute inset-0 bg-gradient-to-t from-black/60 via-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-all duration-700 flex items-end p-8">
+                <div>
+                    <p class="serif text-3xl font-bold text-white drop-shadow-2xl">5 Years Strong</p>
+                    <p class="text-white/90 text-lg font-bold tracking-wider mt-2 drop-shadow-lg">February 14, 2026</p>
+                </div>
+            </div>
+        </div>
+        
+        <div class="space-y-6">
+            <h4 class="serif text-5xl md:text-6xl font-bold leading-tight bg-gradient-to-r from-rose-500 via-pink-500 to-rose-600 bg-clip-text text-transparent">
+                Our<br>5th Chapter 
+            </h4>
+            <p class="text-gray-600 text-lg leading-relaxed max-w-lg">
+                Five years captured in this beautiful moment. 
+                Every detail tells our journey together.
+            </p>
+            <div class="flex items-center gap-4 p-6 bg-gradient-to-r from-rose-50 to-pink-50 rounded-2xl shadow-lg">
+                <div class="w-16 h-16 bg-gradient-to-br from-rose-400 to-pink-400 rounded-2xl flex items-center justify-center text-white font-bold text-xl shadow-xl">5</div>
+                <div>
+                    <p class="font-bold text-xl text-gray-800">Half Decade</p>
+                    <p class="text-sm text-rose-500 font-semibold">Our Milestone</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+    <div id="end-of-page-trigger" class="h-20"></div>
+
+    <!-- The Proposal -->
+    <section class="min-h-screen flex items-center justify-center px-6">
+        <div id="proposal-trigger" class="max-w-3xl w-full premium-glass rounded-[3rem] p-12 md:p-20 text-center relative overflow-hidden">
+            <h3 class="serif text-5xl md:text-7xl font-bold mb-10 text-gray-900 italic">
+  Will You Be My Valentine?
+</h3>
+<div id="button-group" class="flex flex-col sm:flex-row justify-center items-center gap-6">
+  <button id="yes-button" class="px-12 py-5 bg-rose-500 text-white rounded-full font-bold text-xl hover:scale-105 transition-all shadow-xl shadow-rose-200">
+    Yes, forever ❤️
+  </button>
+  <button id="no-button" class="px-10 py-5 text-rose-300 font-bold border-2 border-rose-50 rounded-full">
+    No 😏
+  </button>
+</div>
+
+            <!-- YES CELEBRATION OVERLAY -->
+
+
+        </div>
+    </section>
+
+    <!-- Final Letter (Truncated) -->
+  <!-- Final Letter (Fixed) -->
+<section id="letter-section" class="letter-content mb-40">
+  <div class="max-w-4xl mx-auto px-6 py-2">
+    <div class="bg-white p-12 rounded-lg shadow-2xl">
+      <h2 class="handwritten text-5xl text-gray-800 text-center mb-10">To the Love of My Life,</h2>
+      <div class="space-y-6 text-gray-700 leading-loose">
+        <p class="text-xl">Thank you for these five incredible years, love. You turned ordinary days into my favorite memories and fears into shared battles we won together.</p>
+        
+        <p class="text-xl">There was so much love, laughter, fights, and tears. This journey was not easy but we chose each other every day no matter what.</p>
+        
+        <p class="text-xl">Thanks for bearing with me, my overthinking, and loving my flaws. How many years pass, I still feel the same butterflies when I see you, when we're together your morning coffee scent still makes my heart race like day one and that will last forever. Let these 5 years of love be the forever one.</p>
+        
+        <p class="text-xl">As I always say, no matter what, you are the love of my life, my future, my present, and everything. Literally obsessed with you I don't know how to explain, but "nin andre hucchu nange". You know that I can't live without you and this love towards you will be the same till my death.</p>
+        
+        <p class="text-xl">Be with me forever you will be right? Love you Bhu. Please be the same give me more time. As I always say, love me more and I will make these 5 years into forever.</p>
+        
+        <p class="text-xl">Even when I overthink everything, your smile fixes me instantly. And remember, I will always be there for you no matter what. My promise is simple: I will keep choosing you, in every season, in every version of us.</p>
+        
+        <p class="text-xl font-bold text-rose-600 italic text-center">Happy 5th anniversary, my life and my forever Valentine. </p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<script>
+function updateTimer() {
+    const startDate = new Date('February 14, 2021 00:00:00');
+    const diff = new Date() - startDate;
+    document.getElementById('days').innerText = Math.floor(diff / (1000 * 60 * 60 * 24));
+    document.getElementById('hours').innerText = Math.floor((diff / (1000 * 60 * 60)) % 24);
+    document.getElementById('minutes').innerText = Math.floor((diff / 1000 / 60) % 60);
+    document.getElementById('seconds').innerText = Math.floor((diff / 1000) % 60);
+}
+
+function createHearts() {
+    const container = document.getElementById('heart-container');
+    for (let i = 0; i < 30; i++) {
+        const heart = document.createElement('div');
+        heart.className = 'floating-heart';
+        heart.innerText = ['❤️', '💕', '✨', '🌸'][Math.floor(Math.random() * 4)];
+        heart.style.left = Math.random() * 100 + 'vw';
+        heart.style.animationDuration = (Math.random() * 10 + 10) + 's';
+        heart.style.fontSize = (Math.random() * 20 + 15) + 'px';
+        container.appendChild(heart);
+    }
+}
+
+function createCelebrationHearts() {
+  const container = document.getElementById('celebration-hearts');
+  for (let i = 0; i < 50; i++) {
+    const heart = document.createElement('div');
+    heart.className = 'floating-heart celebration-heart';
+    heart.innerHTML = ['💖', '💕', '💗', '✨', '🌸', '🦋'][Math.floor(Math.random() * 6)];
+    heart.style.left = Math.random() * 100 + '%';
+    heart.style.animationDuration = (Math.random() * 8 + 12) + 's';
+    heart.style.fontSize = (Math.random() * 25 + 20) + 'px';
+    heart.style.animationDelay = Math.random() * 2 + 's';
+    container.appendChild(heart);
+  }
+}
+
+document.addEventListener('mousemove', (e) => {
+  if (Math.random() < 0.1) { // 10% chance
+    const heart = document.createElement('div');
+    heart.className = 'heart-trail';
+    heart.innerHTML = ['💖','💕','💗'][Math.floor(Math.random()*3)];
+    heart.style.left = e.clientX + 'px';
+    heart.style.top = e.clientY + 'px';
+    document.body.appendChild(heart);
+    setTimeout(() => heart.remove(), 3000);
+  }
+});
+
+
+let noButtonActivated = false;
+
+function activateNoButton() {
+    const noBtn = document.getElementById('no-button');
+    if (!noBtn || noButtonActivated) return;
+    
+    noButtonActivated = true;
+    
+    // ✨ GLOWING VISIBLE COLORS
+    function escape() {
+        // TOTAL STYLE CONTROL - PERFECT VISIBILITY
+        noBtn.style.cssText = `
+            position: fixed !important;
+            z-index: 999999 !important;
+            transition: none !important;
+            left: ${40 + Math.random() * (window.innerWidth - 200)}px !important;
+            top: ${40 + Math.random() * (window.innerHeight - 120)}px !important;
+            background: linear-gradient(135deg, #ff6b9d, #c44569) !important;
+            color: white !important;
+            box-shadow: 0 10px 30px rgba(255, 107, 157, 0.6) !important;
+            border: 2px solid rgba(255, 255, 255, 0.8) !important;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.3) !important;
+            font-weight: bold !important;
+        `;
+        
+        // SHAKE ANIMATION
+        noBtn.style.transform = `scale(1.15) rotate(${Math.random() * 15 - 7.5}deg)`;
+        setTimeout(() => {
+            noBtn.style.transform = 'scale(1) rotate(0deg)';
+        }, 100);
+    }
+    
+    // ULTRA SENSITIVE HOVER
+    ['mouseenter', 'mouseover', 'mousemove'].forEach(event => {
+        noBtn.addEventListener(event, escape);
+    });
+    
+    noBtn.addEventListener('touchstart', escape);
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+    createHearts();
+    updateTimer();
+    setInterval(updateTimer, 1000);
+});
+
+window.addEventListener('scroll', () => {
+    const trigger = document.getElementById('end-of-page-trigger');
+    if (trigger && trigger.getBoundingClientRect().top < window.innerHeight) {
+        document.getElementById('proposal-trigger').classList.add('visible');
+        setTimeout(activateNoButton, 300);
+    }
+});
+
+document.addEventListener('click', (e) => {
+if (e.target.id === 'yes-button') {
+  const proposal = document.getElementById('proposal-trigger');
+  proposal.style.opacity = '0';
+  proposal.style.pointerEvents = 'none';
+  
+  setTimeout(() => {
+    document.getElementById('yes-overlay').classList.remove('hidden');
+    createCelebrationHearts(); // Gentle floating hearts!
+  }, 400);
+}
+
+
+if (e.target.id === 'continue-btn') {
+    document.getElementById('yes-overlay').classList.add('hidden');
+    document.getElementById('letter-section').classList.add('letter-open');
+    setTimeout(() => {
+        document.getElementById('letter-section')
+          .scrollIntoView({ behavior: 'smooth' });
+    }, 300);
+}
+
+});
+</script>
+
+<div id="yes-overlay" class="fixed inset-0 hidden z-[9999] flex items-center justify-center bg-gradient-to-br from-rose-400 via-pink-400 to-rose-500 overflow-hidden">
+  <!-- Floating Hearts Background (like hero section) -->
+  <div id="celebration-hearts" class="absolute inset-0 pointer-events-none"></div>
+  
+  <!-- Gentle Content - MATCHING HERO FONTS -->
+  <div class="text-center text-white space-y-8 px-6 relative z-10">
+    <h1 class="serif text-6xl md:text-8xl font-bold tracking-tighter italic bg-gradient-to-r from-white to-rose-200 bg-clip-text text-transparent drop-shadow-2xl">
+      He Said Yes !!!
+    </h1>
+    
+    <p class="handwritten text-3xl md:text-4xl drop-shadow-2xl">
+      Five years behind us, eternity ahead 
+    </p>
+
+    <div class="flex flex-col items-center space-y-6">
+      <button id="continue-btn" class="px-12 py-5 bg-white/90 backdrop-blur-xl text-rose-600 font-bold rounded-3xl text-xl shadow-2xl hover:scale-105 transition-all duration-300 border-4 border-white/40 tracking-wider uppercase">
+        Continue our forever story →
+      </button>
+    </div>
+  </div>
+</div>
+
+
+</body>
+</html>
